@@ -4,7 +4,7 @@
 package com.nous.test.auth.res;
 
 /**
- * @author hariprakash
+ * @author Aman
  *
  */
 public class JWTResponse {

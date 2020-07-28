@@ -4,7 +4,7 @@
 package com.nous.test.auth.req;
 
 /**
- * @author hariprakash
+ * @author Aman
  *
  */
 public class JWTRequest {

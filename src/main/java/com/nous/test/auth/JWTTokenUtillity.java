@@ -11,8 +11,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class JWTTokenUtillity implements Serializable {
@@ -22,12 +26,12 @@ public class JWTTokenUtillity implements Serializable {
 	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
 	@Value("${jwt.secret}")
-
 	private String secret;
 
 	//get username from jwt token
 
 	public String getUsernameFromToken(String token) {
+		System.out.println("Secret Key = " + secret );
 
 	return getClaimFromToken(token, Claims::getSubject);
 
@@ -70,8 +74,9 @@ public class JWTTokenUtillity implements Serializable {
 	//generate token for user
 
 	public String generateToken(UserDetails userDetails) {
-
+		String roles = userDetails.getAuthorities().toArray()[0] +"";
 	Map<String, Object> claims = new HashMap<>();
+	claims.put("roles", roles);
 
 	return doGenerateToken(claims, userDetails.getUsername());
 
@@ -81,7 +86,10 @@ public class JWTTokenUtillity implements Serializable {
 
 	private String doGenerateToken(Map<String, Object> claims, String subject) {
 
-	return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+	return Jwts.builder()
+			.setClaims(claims)
+			.setSubject(subject)
+			.setIssuedAt(new Date(System.currentTimeMillis()))
 
 	.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 5000))
 
@@ -93,9 +101,27 @@ public class JWTTokenUtillity implements Serializable {
 
 	public Boolean validateToken(String token, UserDetails userDetails) {
 
-	final String username = getUsernameFromToken(token);
+		try {
+			Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+			return true;
+		} catch (SignatureException e) {
+			e.printStackTrace();
+		} catch (MalformedJwtException e) {
+			e.printStackTrace();
+		} catch (ExpiredJwtException e) {
+			e.printStackTrace();
+		} catch (UnsupportedJwtException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
 
-	return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+		return false;
+		
+		
+//		final String username = getUsernameFromToken(token);
+//
+//		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 
 	}
 

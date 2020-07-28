@@ -23,12 +23,13 @@ import com.nous.test.auth.JWTAuthenticationEntryPoint;
 import com.nous.test.auth.req.JWTRequestFilter;
 
 /**
- * @author hariprakash
+ * @author Aman
  *
  */
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class NousWebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
@@ -70,7 +71,7 @@ public class NousWebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 
 	public AuthenticationManager authenticationManagerBean() throws Exception {
-
+System.out.println("configure auth");
 	return super.authenticationManagerBean();
 
 	}
@@ -78,7 +79,7 @@ public class NousWebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-
+System.out.println("configure http");
 	// We don't need CSRF for this example
 		
 	httpSecurity.cors().and().csrf().disable().
@@ -91,8 +92,8 @@ public class NousWebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     .authorizeRequests()
     //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-    .antMatchers(HttpMethod.POST, "/leave").hasRole("MANAGER")
-    .antMatchers(HttpMethod.PUT, "/leave").hasRole("DEV")
+//    .antMatchers(HttpMethod.PUT, "/api/approve").hasRole("MANAGER")
+//    .antMatchers(HttpMethod.POST, "/api/apply").hasRole("DEV")
     // allow anonymous resource requests
     .antMatchers(
             HttpMethod.GET,

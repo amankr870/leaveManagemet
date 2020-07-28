@@ -19,7 +19,7 @@ import com.nous.test.dao.UserDTO;
 import com.nous.test.dao.UserDao;
 
 /**
- * @author hariprakash
+ * @author Aman
  *
  */
 @Component
@@ -38,7 +38,7 @@ public class JWTUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException("User not found with username: " + username);
 		}
 		
-		return new MyUserDetails(user);
+		return MyUserDetails.build(user);
 //		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
 //				new ArrayList<>());
 	}

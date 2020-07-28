@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,7 +24,9 @@ public class DAOUser {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Integer userid;
+	
+//	@Id
 	@Column
 	private String username;
 	@Column
@@ -33,10 +36,10 @@ public class DAOUser {
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "users_roles",
-			joinColumns = @JoinColumn(name = "id"),
-			inverseJoinColumns = @JoinColumn(name = "roleid")
+			joinColumns = {@JoinColumn(name = "user_id")},
+			inverseJoinColumns = {@JoinColumn(name = "role_id")}
 			)
-	private Set<Role> roles = new HashSet<>(); 
+	private Set<Role> roles; 
 
 	public String getUsername() {
 		return username;
@@ -61,5 +64,12 @@ public class DAOUser {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+
+	@Override
+	public String toString() {
+		return "DAOUser [id=" + userid + ", username=" + username + ", password=" + password + ", roles=" + roles + "]";
+	}
+	
+	
 
 }
