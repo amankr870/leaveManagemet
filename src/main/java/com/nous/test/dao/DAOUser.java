@@ -41,6 +41,14 @@ public class DAOUser {
 			)
 	private Set<Role> roles; 
 
+	public Integer getUserid() {
+		return userid;
+	}
+
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -67,7 +75,7 @@ public class DAOUser {
 
 	@Override
 	public String toString() {
-		return "DAOUser [id=" + userid + ", username=" + username + ", password=" + password + ", roles=" + roles + "]";
+		return "DAOUser [id=" + getUserid() + ", username=" + username + ", password=" + password + ", roles=" + roles + "]";
 	}
 	
 	

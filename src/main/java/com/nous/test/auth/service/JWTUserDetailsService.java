@@ -37,13 +37,13 @@ public class JWTUserDetailsService implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found with username: " + username);
 		}
-		
+
 		return MyUserDetails.build(user);
 //		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
 //				new ArrayList<>());
 	}
 
-	public DAOUser  save(UserDTO user) {
+	public DAOUser save(UserDTO user) {
 		DAOUser newUser = new DAOUser();
 		newUser.setUsername(user.getUsername());
 		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));

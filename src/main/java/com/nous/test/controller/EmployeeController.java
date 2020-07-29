@@ -38,10 +38,10 @@ import io.swagger.annotations.Api;
 @CrossOrigin
 @Api(value = "Leave admin api", description = "Leave admin")
 public class EmployeeController {
-	
+
 	@Autowired
 	private IEmployeeService empService;
-	
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -77,26 +77,25 @@ public class EmployeeController {
 			throw new Exception("INVALID_CREDENTIALS", e);
 		}
 	}
-	
-	
+
 	@PreAuthorize("hasRole('MANAGER')")
 //	@Secured ({"ROLE_MANAGER"})
 	@RequestMapping(value = "/approve", method = RequestMethod.PUT)
 	public String approve(@RequestBody LeaveApplication leaveApplication) {
 		System.out.println("approve leave method");
 		empService.approveLeave(leaveApplication);
-		
+
 		return null;
 	}
-	
+
 	@PreAuthorize("hasRole('DEV')")
 //	@Secured ({"ROLE_DEV"})
 	@RequestMapping(value = "/apply", method = RequestMethod.POST)
 	public String applyLeave(@RequestBody LeaveApplication leaveApplication) {
 		System.out.println("Apply leave method");
 		empService.applyLeave(leaveApplication);
-		
+
 		return null;
 	}
-	
+
 }

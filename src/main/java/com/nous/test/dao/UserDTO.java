@@ -1,6 +1,5 @@
 package com.nous.test.dao;
 
-
 public class UserDTO {
 	private String username;
 	private String password;

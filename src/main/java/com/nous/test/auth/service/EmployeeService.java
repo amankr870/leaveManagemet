@@ -9,16 +9,17 @@ import com.nous.test.dao.LeaveDao;
 
 @Service
 public class EmployeeService implements IEmployeeService {
-	
+
 	@Autowired
 	private LeaveDao lDao;
-	
+
 	@Autowired
 	Environment env;
+
 	@Override
 	public void approveLeave(LeaveApplication leaveApplication) {
-		
-		if(leaveApplication.getStatus().contains("Reject")) {
+
+		if (leaveApplication.getStatus().contains("Reject")) {
 			leaveApplication.setStatus(env.getProperty("leave.reject"));
 		} else {
 			leaveApplication.setStatus(env.getProperty("leave.approve"));
