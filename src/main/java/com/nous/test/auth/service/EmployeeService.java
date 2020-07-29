@@ -7,7 +7,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.nous.test.controller.EmployeeController;
+import com.nous.test.dao.ApprovalDTO;
 import com.nous.test.dao.LeaveApplication;
+import com.nous.test.dao.LeaveDTO;
 import com.nous.test.dao.LeaveDao;
 
 @Service
@@ -21,7 +23,7 @@ public class EmployeeService implements IEmployeeService {
 	Environment env;
 
 	@Override
-	public void approveLeave(LeaveApplication leaveApplication) {
+	public void approveLeave(ApprovalDTO leaveApplication) {
 		logger.info("In " + this.getClass().getSimpleName() + "approveLeave()");
 		if (leaveApplication.getStatus().startsWith("R")) {
 			logger.info("Leave is getting rejected");
@@ -34,10 +36,18 @@ public class EmployeeService implements IEmployeeService {
 	}
 
 	@Override
-	public void applyLeave(LeaveApplication leaveApplication) {
+	public void applyLeave(LeaveDTO lDto) {
 		logger.info("In " + this.getClass().getSimpleName() + "applyLeave()");
-		leaveApplication.setStatus(env.getProperty("leave.apply"));
+		lDto.setStatus(env.getProperty("leave.apply"));
 		logger.info("Leave is getting Applied");
+		
+		LeaveApplication leaveApplication = new LeaveApplication();
+		leaveApplication.setFromDate(lDto.getFromDate());
+		leaveApplication.setToDate(lDto.getToDate());
+		leaveApplication.setNotes(lDto.getNotes());
+		leaveApplication.setToDate(lDto.getToDate());
+		leaveApplication.setStatus(lDto.getStatus());
+		
 		lDao.save(leaveApplication);
 	}
 

@@ -26,7 +26,9 @@ import com.nous.test.auth.req.JWTRequest;
 import com.nous.test.auth.res.JWTResponse;
 import com.nous.test.auth.service.IEmployeeService;
 import com.nous.test.auth.service.JWTUserDetailsService;
+import com.nous.test.dao.ApprovalDTO;
 import com.nous.test.dao.LeaveApplication;
+import com.nous.test.dao.LeaveDTO;
 import com.nous.test.dao.UserDTO;
 
 import io.swagger.annotations.Api;
@@ -88,9 +90,9 @@ public class EmployeeController {
 	@PreAuthorize("hasRole('MANAGER')")
 //	@Secured ({"ROLE_MANAGER"})
 	@RequestMapping(value = "/approve", method = RequestMethod.PUT)
-	public String approve(@RequestBody LeaveApplication leaveApplication) {
+	public String approve(@RequestBody ApprovalDTO leave) {
 		logger.info("In " + this.getClass().getSimpleName() + "approve()");
-		empService.approveLeave(leaveApplication);
+		empService.approveLeave(leave);
 
 		return null;
 	}
@@ -98,7 +100,7 @@ public class EmployeeController {
 	@PreAuthorize("hasRole('DEV')")
 //	@Secured ({"ROLE_DEV"})
 	@RequestMapping(value = "/apply", method = RequestMethod.POST)
-	public String applyLeave(@RequestBody LeaveApplication leaveApplication) {
+	public String applyLeave(@RequestBody LeaveDTO leaveApplication) {
 		logger.info("In " + this.getClass().getSimpleName() + "applyLeave()");
 		empService.applyLeave(leaveApplication);
 
