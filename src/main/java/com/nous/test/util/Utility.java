@@ -17,6 +17,7 @@ public class Utility {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+
 		return format1.format(date);
 	}
 }
